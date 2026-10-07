@@ -56,12 +56,12 @@ jobs:
           case "$CHANNEL" in
             testing)
               workflow='.github/workflows/build-testing.yml'
-              target_branch='reF1nd-testing'
+              target_branch='dev'
               build_info_file='testing-build-info.json'
               ;;
             stable)
               workflow='.github/workflows/build-stable.yml'
-              target_branch='reF1nd-stable'
+              target_branch='main'
               build_info_file='stable-build-info.json'
               ;;
             oldstable)
@@ -255,7 +255,7 @@ jobs:
         if: inputs.update_sing_box
         uses: actions/checkout@v6
         with:
-          repository: reF1nd/sing-box
+          repository: SagerNet/sing-box
           ref: ${{ steps.manifest.outputs.source_sha }}
           token: ${{ secrets.SING_BOX_REPOSITORY_TOKEN }}
           path: sing-box
@@ -381,100 +381,100 @@ jobs:
           mv release_files/sing-box-*-windows-* release_files/windows/ 2>/dev/null || true
           mv release_files/sing-box-* release_files/others/ 2>/dev/null || true
 
-      - name: Post SFA to channel
-        if: steps.manifest.outputs.build_android_gui == 'true'
-        uses: xireiki/channel-post@v2
-        with:
-          chat_id: ${{ secrets.CHAT_ID }}
-          bot_token: ${{ secrets.BOT_TOKEN }}
-          path: release_files/sfa/*
-          context: "#${{ inputs.channel }}\nSFA-${{ steps.manifest.outputs.version }}"
-          parse_mode: HTML
-          large_file: true
-          api_id: ${{ secrets.API_ID }}
-          api_hash: ${{ secrets.API_HASH }}
-          method: sendFile
+      # - name: Post SFA to channel
+        # if: steps.manifest.outputs.build_android_gui == 'true'
+        # uses: xireiki/channel-post@v2
+        # with:
+          # chat_id: ${{ secrets.CHAT_ID }}
+          # bot_token: ${{ secrets.BOT_TOKEN }}
+          # path: release_files/sfa/*
+          # context: "#${{ inputs.channel }}\nSFA-${{ steps.manifest.outputs.version }}"
+          # parse_mode: HTML
+          # large_file: true
+          # api_id: ${{ secrets.API_ID }}
+          # api_hash: ${{ secrets.API_HASH }}
+          # method: sendFile
 
-      - name: Post SFW to channel
-        if: inputs.channel != 'oldstable' && steps.manifest.outputs.build_windows_gui == 'true'
-        uses: xireiki/channel-post@v2
-        with:
-          chat_id: ${{ secrets.CHAT_ID }}
-          bot_token: ${{ secrets.BOT_TOKEN }}
-          path: release_files/sfw/*
-          context: "#${{ inputs.channel }}\nSFW-${{ steps.manifest.outputs.version }}"
-          parse_mode: HTML
-          large_file: true
-          api_id: ${{ secrets.API_ID }}
-          api_hash: ${{ secrets.API_HASH }}
-          method: sendFile
+      # - name: Post SFW to channel
+        # if: inputs.channel != 'oldstable' && steps.manifest.outputs.build_windows_gui == 'true'
+        # uses: xireiki/channel-post@v2
+        # with:
+          # chat_id: ${{ secrets.CHAT_ID }}
+          # bot_token: ${{ secrets.BOT_TOKEN }}
+          # path: release_files/sfw/*
+          # context: "#${{ inputs.channel }}\nSFW-${{ steps.manifest.outputs.version }}"
+          # parse_mode: HTML
+          # large_file: true
+          # api_id: ${{ secrets.API_ID }}
+          # api_hash: ${{ secrets.API_HASH }}
+          # method: sendFile
 
-      - name: Post SFL to channel
-        if: inputs.channel != 'oldstable' && steps.manifest.outputs.build_linux_gui == 'true'
-        uses: xireiki/channel-post@v2
-        with:
-          chat_id: ${{ secrets.CHAT_ID }}
-          bot_token: ${{ secrets.BOT_TOKEN }}
-          path: release_files/sfl/*
-          context: "#${{ inputs.channel }}\nSFL-${{ steps.manifest.outputs.version }}"
-          parse_mode: HTML
-          large_file: true
-          api_id: ${{ secrets.API_ID }}
-          api_hash: ${{ secrets.API_HASH }}
-          method: sendFile
+      # - name: Post SFL to channel
+        # if: inputs.channel != 'oldstable' && steps.manifest.outputs.build_linux_gui == 'true'
+        # uses: xireiki/channel-post@v2
+        # with:
+          # chat_id: ${{ secrets.CHAT_ID }}
+          # bot_token: ${{ secrets.BOT_TOKEN }}
+          # path: release_files/sfl/*
+          # context: "#${{ inputs.channel }}\nSFL-${{ steps.manifest.outputs.version }}"
+          # parse_mode: HTML
+          # large_file: true
+          # api_id: ${{ secrets.API_ID }}
+          # api_hash: ${{ secrets.API_HASH }}
+          # method: sendFile
 
-      - name: Post sing-box Android CLI to channel
-        if: steps.manifest.outputs.build_cli == 'true'
-        uses: xireiki/channel-post@v2
-        with:
-          chat_id: ${{ secrets.CHAT_ID }}
-          bot_token: ${{ secrets.BOT_TOKEN }}
-          path: release_files/android/*
-          context: "#${{ inputs.channel }}\nsing-box-${{ steps.manifest.outputs.version }}-android"
-          parse_mode: HTML
-          large_file: true
-          api_id: ${{ secrets.API_ID }}
-          api_hash: ${{ secrets.API_HASH }}
-          method: sendFile
+      # - name: Post sing-box Android CLI to channel
+        # if: steps.manifest.outputs.build_cli == 'true'
+        # uses: xireiki/channel-post@v2
+        # with:
+          # chat_id: ${{ secrets.CHAT_ID }}
+          # bot_token: ${{ secrets.BOT_TOKEN }}
+          # path: release_files/android/*
+          # context: "#${{ inputs.channel }}\nsing-box-${{ steps.manifest.outputs.version }}-android"
+          # parse_mode: HTML
+          # large_file: true
+          # api_id: ${{ secrets.API_ID }}
+          # api_hash: ${{ secrets.API_HASH }}
+          # method: sendFile
 
-      - name: Post sing-box Darwin CLI to channel
-        if: steps.manifest.outputs.build_cli == 'true'
-        uses: xireiki/channel-post@v2
-        with:
-          chat_id: ${{ secrets.CHAT_ID }}
-          bot_token: ${{ secrets.BOT_TOKEN }}
-          path: release_files/darwin/*
-          context: "#${{ inputs.channel }}\nsing-box-${{ steps.manifest.outputs.version }}-darwin"
-          parse_mode: HTML
-          large_file: true
-          api_id: ${{ secrets.API_ID }}
-          api_hash: ${{ secrets.API_HASH }}
-          method: sendFile
+      # - name: Post sing-box Darwin CLI to channel
+        # if: steps.manifest.outputs.build_cli == 'true'
+        # uses: xireiki/channel-post@v2
+        # with:
+          # chat_id: ${{ secrets.CHAT_ID }}
+          # bot_token: ${{ secrets.BOT_TOKEN }}
+          # path: release_files/darwin/*
+          # context: "#${{ inputs.channel }}\nsing-box-${{ steps.manifest.outputs.version }}-darwin"
+          # parse_mode: HTML
+          # large_file: true
+          # api_id: ${{ secrets.API_ID }}
+          # api_hash: ${{ secrets.API_HASH }}
+          # method: sendFile
 
-      - name: Post sing-box Windows CLI to channel
-        if: steps.manifest.outputs.build_cli == 'true'
-        uses: xireiki/channel-post@v2
-        with:
-          chat_id: ${{ secrets.CHAT_ID }}
-          bot_token: ${{ secrets.BOT_TOKEN }}
-          path: release_files/windows/*
-          context: "#${{ inputs.channel }}\nsing-box-${{ steps.manifest.outputs.version }}-windows"
-          parse_mode: HTML
-          large_file: true
-          api_id: ${{ secrets.API_ID }}
-          api_hash: ${{ secrets.API_HASH }}
-          method: sendFile
+      # - name: Post sing-box Windows CLI to channel
+        # if: steps.manifest.outputs.build_cli == 'true'
+        # uses: xireiki/channel-post@v2
+        # with:
+          # chat_id: ${{ secrets.CHAT_ID }}
+          # bot_token: ${{ secrets.BOT_TOKEN }}
+          # path: release_files/windows/*
+          # context: "#${{ inputs.channel }}\nsing-box-${{ steps.manifest.outputs.version }}-windows"
+          # parse_mode: HTML
+          # large_file: true
+          # api_id: ${{ secrets.API_ID }}
+          # api_hash: ${{ secrets.API_HASH }}
+          # method: sendFile
 
-      - name: Post sing-box Linux CLI to channel
-        if: steps.manifest.outputs.build_cli == 'true'
-        uses: xireiki/channel-post@v2
-        with:
-          chat_id: ${{ secrets.CHAT_ID }}
-          bot_token: ${{ secrets.BOT_TOKEN }}
-          path: release_files/others/*
-          context: "#${{ inputs.channel }}\nsing-box-${{ steps.manifest.outputs.version }}-linux"
-          parse_mode: HTML
-          large_file: true
-          api_id: ${{ secrets.API_ID }}
-          api_hash: ${{ secrets.API_HASH }}
-          method: sendFile
+      # - name: Post sing-box Linux CLI to channel
+        # if: steps.manifest.outputs.build_cli == 'true'
+        # uses: xireiki/channel-post@v2
+        # with:
+          # chat_id: ${{ secrets.CHAT_ID }}
+          # bot_token: ${{ secrets.BOT_TOKEN }}
+          # path: release_files/others/*
+          # context: "#${{ inputs.channel }}\nsing-box-${{ steps.manifest.outputs.version }}-linux"
+          # parse_mode: HTML
+          # large_file: true
+          # api_id: ${{ secrets.API_ID }}
+          # api_hash: ${{ secrets.API_HASH }}
+          # method: sendFile
